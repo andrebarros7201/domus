@@ -1,0 +1,22 @@
+# Next.js
+node_modules/
+.next/
+out/
+.env*.local
+
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+.idea/
+*.log
+
+# Environment & Secrets
+appsettings.Development.json
+appsettings.Production.json
+
+# OS
+.DS_Store
+Thumbs.db
