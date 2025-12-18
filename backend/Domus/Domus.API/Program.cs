@@ -1,18 +1,19 @@
+using Microsoft.OpenApi;
+
 namespace Domus.API;
 
 public class Program {
     public static void Main(string[] args) {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
         builder.Services.AddAuthorization();
-
-        // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-        builder.Services.AddOpenApi();
-        
+        builder.Services.AddAuthentication();
         builder.Services.AddControllers();
+        builder.Services.AddSwaggerGen(c => {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Domus.API", Version = "v1" });
+            }
+        );
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
 
         var app = builder.Build();
         
@@ -25,8 +26,9 @@ public class Program {
         }
 
         app.UseHttpsRedirection();
-
+        app.UseAuthentication();
         app.UseAuthorization();
+        app.MapControllers();
 
         app.Run();
     }
