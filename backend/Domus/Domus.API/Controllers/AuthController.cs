@@ -56,8 +56,12 @@ public class AuthController : ControllerBase {
         });
 
         return ServiceResult<UserDto>.ServiceResultResponse(result);
+    }
 
-
+    [HttpGet("logout")]
+    public async Task<IActionResult> Logout() {
+        Response.Cookies.Delete("token");
+        return Ok(new { message = "User logged out successfully" });
     }
 
 }
