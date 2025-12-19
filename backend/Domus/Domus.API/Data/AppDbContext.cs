@@ -9,6 +9,7 @@ public class AppDbContext : DbContext {
 
     // Tables
     public DbSet<User> Users { get; set; }
+    public DbSet<Property> Properties { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         modelBuilder.Entity<User>(entity => {
@@ -37,5 +38,4 @@ public class AppDbContext : DbContext {
             .HasForeignKey(p => p.UserId)
             .OnDelete(DeleteBehavior.Cascade);
     }
-
 }
