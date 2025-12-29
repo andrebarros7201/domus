@@ -4,7 +4,7 @@ export const SidebarDesktop = () => {
   return (
     <aside
       className={
-        "invisible flex flex-col gap-4 items-center p-4 sm:visible h-screen max-w-80 bg-green-900 text-white"
+        "invisible flex flex-col items-center p-4 gap-4 sm:visible h-screen max-w-80 w-full bg-green-900 text-white"
       }
     >
       <h2
