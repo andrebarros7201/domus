@@ -2,7 +2,7 @@ import { INotification } from "@/types/interfaces/INotification";
 import { IUser } from "@/types/interfaces/IUser";
 import { IUserSlice } from "@/types/slices/IUserSlice";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios, { Axios, AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 
 const initialState: IUserSlice = {
   isAuth: false,
