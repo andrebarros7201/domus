@@ -8,15 +8,9 @@ namespace Domus.API.Services.Implementations;
 
 // Generates a JWT
 public class TokenService {
-    private readonly IConfiguration _configuration;
-
-    public TokenService(IConfiguration configuration) {
-        _configuration = configuration;
-    }
-
     public string GenerateToken(TokenDataDto dto) {
         var handler = new JwtSecurityTokenHandler();
-        byte[] key = Encoding.ASCII.GetBytes(_configuration["JWT_SECRET"]!);
+        byte[] key = Encoding.ASCII.GetBytes(Configuration.JWT_SECRET);
         var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature);
         var tokenDescriptor = new SecurityTokenDescriptor {
             Subject = GenerateClaimsIdentity(dto),
