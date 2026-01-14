@@ -3,6 +3,7 @@ using Domus.API.Repositories.Implementations;
 using Domus.API.Repositories.Interfaces;
 using Domus.API.Services.Implementations;
 using Domus.API.Services.Interfaces;
+using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 
@@ -10,8 +11,13 @@ namespace Domus.API;
 
 public class Program {
     public static void Main(string[] args) {
+        // Load env variables
+        Env.Load();
+
         var builder = WebApplication.CreateBuilder(args);
 
+
+        builder.Configuration.AddEnvironmentVariables();
         builder.Services.AddAuthorization();
         builder.Services.AddAuthentication();
         builder.Services.AddControllers();
@@ -26,6 +32,15 @@ public class Program {
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<TokenService>();
 
+        builder.Services.AddCors(options => {
+            options.AddPolicy("AllowFrontend", builder => builder
+            .WithOrigins(Configuration.FRONTEND_URL)
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials()
+            );
+        });
+
         var app = builder.Build();
 
         if (app.Environment.IsDevelopment()) {
@@ -35,6 +50,8 @@ public class Program {
                 c.RoutePrefix = "";
             });
         }
+        // Allow requests from frontend
+        app.UseCors("AllowFrontend");
 
         app.UseHttpsRedirection();
         app.UseAuthentication();
