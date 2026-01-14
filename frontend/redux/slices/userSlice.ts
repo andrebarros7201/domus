@@ -21,7 +21,7 @@ export const register = createAsyncThunk<
   async ({ firstName, lastName, username, password }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${process.env.BACKEND_URL}/auth/register`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/register`,
         { firstName, lastName, username, password }
       );
       const { message } = response.data;
@@ -41,10 +41,13 @@ export const login = createAsyncThunk<
   { rejectValue: { notification: INotification } }
 >("user/login", async ({ username, password }, { rejectWithValue }) => {
   try {
-    const response = await axios.post(`${process.env.BACKEND_URL}/auth/login`, {
-      username,
-      password,
-    });
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,
+      {
+        username,
+        password,
+      }
+    );
     const { data } = response.data;
     return {
       notification: { type: "success", message: "Successfully logged in" },
@@ -64,9 +67,12 @@ export const logout = createAsyncThunk<
   { rejectValue: { notification: INotification } }
 >("user/logout", async (_, { rejectWithValue }) => {
   try {
-    const response = await axios.get(`${process.env.BACKEND_URL}/auth/logout`, {
-      withCredentials: true,
-    });
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/logout`,
+      {
+        withCredentials: true,
+      }
+    );
     const { message } = response.data;
     return {
       notification: { type: "success", message },
