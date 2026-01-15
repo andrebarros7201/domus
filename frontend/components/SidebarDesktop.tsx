@@ -1,6 +1,12 @@
+"use client";
+
+import { useSelector } from "react-redux";
 import { SidebarLink } from "./ui/SidebarLink";
+import { RootState } from "@/redux/store";
+import { LogoutButton } from "./ButtonLogout";
 
 export const SidebarDesktop = () => {
+  const { isAuth } = useSelector((state: RootState) => state.user);
   return (
     <aside
       className={
@@ -14,8 +20,16 @@ export const SidebarDesktop = () => {
       >
         Domus
       </h2>
-      <SidebarLink label={"Register"} href={"/register"} />
-      <SidebarLink label={"Login"} href={"/login"} />
+      <div className={"w-full flex flex-col gap-4 items-center mt-auto"}>
+        {!isAuth ? (
+          <>
+            <SidebarLink label={"Register"} href={"/register"} />
+            <SidebarLink label={"Login"} href={"/login"} />
+          </>
+        ) : (
+          <LogoutButton />
+        )}
+      </div>
     </aside>
   );
 };
