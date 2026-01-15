@@ -44,7 +44,7 @@ public class AuthController : ControllerBase {
         }
 
         string token = _tokenService.GenerateToken(new TokenDataDto {
-            Id = result.Data.Id,
+            Id = result.Data!.Id,
             Username = result.Data.Username
         });
 
