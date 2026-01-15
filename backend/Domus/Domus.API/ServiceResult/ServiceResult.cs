@@ -24,7 +24,7 @@ public class ServiceResult<T> {
         return result.Status switch {
             ServiceResultStatus.Ok => result.NumberPages != null
              ? new OkObjectResult(new { data = result.Data, numberPages = result.NumberPages })
-             : new OkObjectResult(result.Data),
+             : new OkObjectResult(new { data = result.Data }),
             ServiceResultStatus.Created => result.Data != null
              ? new ObjectResult(new { data = result.Data, message = result.Message }) { StatusCode = 201 }
              : new ObjectResult(new { message = result.Message }) { StatusCode = 201 },
