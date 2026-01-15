@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Domus.API.ServiceResult;
 using Domus.API.Services.Implementations;
 using Domus.API.DTOs.Token;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Domus.API.Controllers;
 
@@ -58,6 +59,7 @@ public class AuthController : ControllerBase {
         return ServiceResult<UserDto>.ServiceResultResponse(result);
     }
 
+    [Authorize]
     [HttpGet("logout")]
     public async Task<IActionResult> Logout() {
         Response.Cookies.Delete("token");
