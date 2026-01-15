@@ -46,7 +46,8 @@ export const login = createAsyncThunk<
       {
         username,
         password,
-      }
+      },
+      { withCredentials: true }
     );
     const { data } = response.data;
     return {
