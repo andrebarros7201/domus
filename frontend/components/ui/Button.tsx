@@ -3,6 +3,7 @@ type Props = {
   type: "button" | "submit" | "reset";
   variety: "primary" | "secondary" | "danger";
   isDisabled?: boolean;
+  onClick?: () => void;
 };
 
 export const Button = ({
@@ -10,6 +11,7 @@ export const Button = ({
   type,
   variety = "primary",
   isDisabled = false,
+  onClick,
 }: Props) => {
   const varietyStyle = {
     primary: "bg-green-800 hover:bg-green-900",
@@ -19,6 +21,7 @@ export const Button = ({
 
   return (
     <button
+      onClick={onClick}
       type={type}
       disabled={isDisabled}
       className={`w-full text-bold text-white font-bold flex justify-center items-center p-4 hover:cursor-pointer ${varietyStyle[variety]}
