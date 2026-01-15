@@ -23,6 +23,7 @@ export default function RegisterPage() {
 
   const dispatch = useDispatch<RootDispatch>();
   const [data, setData] = useState(initialState);
+  const [isLoading, setIsLoading] = useState(false);
 
   const formDataSchema = z.object({
     firstName: z
@@ -64,6 +65,8 @@ export default function RegisterPage() {
     }
 
     try {
+      setIsLoading(true);
+
       const response = await dispatch(
         register({
           firstName: result.data.firstName,
@@ -77,6 +80,8 @@ export default function RegisterPage() {
     } catch (e) {
       const error = e as { notification: INotification };
       dispatch(setNotification(error.notification));
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -113,6 +118,7 @@ export default function RegisterPage() {
             label={"Create Account"}
             type={"submit"}
             variety={"primary"}
+            isDisabled={isLoading}
           />
         </Form>
       </div>

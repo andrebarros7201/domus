@@ -21,6 +21,7 @@ export default function LoginPage() {
 
   const dispatch = useDispatch<RootDispatch>();
   const [data, setData] = useState(initialState);
+  const [isLoading, setIsLoading] = useState(false);
 
   const formDataSchema = z.object({
     username: z
@@ -52,6 +53,8 @@ export default function LoginPage() {
     }
 
     try {
+      setIsLoading(true);
+
       const response = await dispatch(
         login({
           username: result.data.username,
@@ -63,6 +66,8 @@ export default function LoginPage() {
     } catch (e) {
       const error = e as { notification: INotification };
       dispatch(setNotification(error.notification));
+    } finally {
+      setIsLoading(false);
     }
   }
   return (
@@ -82,7 +87,12 @@ export default function LoginPage() {
             type="password"
             onChange={handleChange}
           />
-          <Button label={"Login"} type={"submit"} variety={"primary"} />
+          <Button
+            label={"Login"}
+            type={"submit"}
+            variety={"primary"}
+            isDisabled={isLoading}
+          />
         </Form>
       </div>
     </Page>
