@@ -29,7 +29,10 @@ export const register = createAsyncThunk<
     } catch (e) {
       const error = e as AxiosError<{ message: string }>;
       return rejectWithValue({
-        notification: { type: "error", message: error.message },
+        notification: {
+          type: "error",
+          message: error.response?.data.message as string,
+        },
       });
     }
   }
@@ -57,7 +60,10 @@ export const login = createAsyncThunk<
   } catch (e) {
     const error = e as AxiosError<{ message: string }>;
     return rejectWithValue({
-      notification: { type: "error", message: error.message },
+      notification: {
+        type: "error",
+        message: error.response?.data.message as string,
+      },
     });
   }
 });
@@ -81,7 +87,10 @@ export const logout = createAsyncThunk<
   } catch (e) {
     const error = e as AxiosError<{ message: string }>;
     return rejectWithValue({
-      notification: { type: "error", message: error.message },
+      notification: {
+        type: "error",
+        message: error.response?.data.message as string,
+      },
     });
   }
 });
