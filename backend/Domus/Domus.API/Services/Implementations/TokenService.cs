@@ -22,7 +22,7 @@ public class TokenService {
         return handler.WriteToken(token);
     }
 
-    public static ClaimsIdentity GenerateClaimsIdentity(TokenDataDto dto) {
+    private static ClaimsIdentity GenerateClaimsIdentity(TokenDataDto dto) {
         var ci = new ClaimsIdentity();
         ci.AddClaim(new Claim(ClaimTypes.NameIdentifier, dto.Id));
         ci.AddClaim(new Claim(ClaimTypes.Name, dto.Username));
