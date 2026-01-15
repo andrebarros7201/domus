@@ -1,10 +1,13 @@
+using System.Text;
 using Domus.API.Data;
 using Domus.API.Repositories.Implementations;
 using Domus.API.Repositories.Interfaces;
 using Domus.API.Services.Implementations;
 using Domus.API.Services.Interfaces;
 using DotNetEnv;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 
 namespace Domus.API;
@@ -31,6 +34,25 @@ public class Program {
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<TokenService>();
+
+        // JWT Authentication
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
+            options.Events = new JwtBearerEvents {
+                OnMessageReceived = context => {
+                    context.Token = context.Request.Cookies["token"];
+                    return Task.CompletedTask;
+                }
+            };
+            options.TokenValidationParameters = new TokenValidationParameters {
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.ASCII.GetBytes(Configuration.JWT_SECRET)
+                )
+            };
+        });
 
         builder.Services.AddCors(options => {
             options.AddPolicy("AllowFrontend", builder => builder
